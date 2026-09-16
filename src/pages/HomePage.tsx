@@ -10,19 +10,13 @@ import { SectionHeading } from '@/components/ui/SectionHeading';
 import { SmartImage } from '@/components/ui/SmartImage';
 import { SmartVideo } from '@/components/ui/SmartVideo';
 import { categories } from '@/data/products';
+import { homeSeo } from '@/data/routeMeta';
 import { faqs, process, siteInfo, stats, values } from '@/data/site';
-import { faqJsonLd } from '@/lib/structuredData';
 
 export function HomePage() {
   return (
     <>
-      <Seo
-        title={`${siteInfo.name} — Wooden Doors, Windows & Custom Joinery in ${siteInfo.city}`}
-        description={`${siteInfo.description} Serving ${siteInfo.city} and across ${siteInfo.country}.`}
-        keywords={siteInfo.keywords}
-        path="/"
-        jsonLd={faqJsonLd(faqs)}
-      />
+      <Seo {...homeSeo()} />
 
       <section className="overflow-hidden">
         <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-16 lg:grid-cols-2 lg:py-24">

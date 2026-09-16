@@ -2,8 +2,7 @@ import { Seo } from '@/components/Seo';
 import { Reveal } from '@/components/ui/Reveal';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { awards } from '@/data/awards';
-import { siteInfo } from '@/data/site';
-import { breadcrumbJsonLd } from '@/lib/structuredData';
+import { awardsSeo } from '@/data/routeMeta';
 
 function TrophyIcon() {
   return (
@@ -34,15 +33,7 @@ function TrophyIcon() {
 export function AwardsPage() {
   return (
     <div className="mx-auto max-w-6xl space-y-10 px-6 py-16">
-      <Seo
-        title="Awards & Recognition"
-        description={`Awards, certifications and recognition earned by ${siteInfo.name}.`}
-        path="/awards"
-        jsonLd={breadcrumbJsonLd([
-          { name: 'Home', path: '/' },
-          { name: 'Awards', path: '/awards' },
-        ])}
-      />
+      <Seo {...awardsSeo()} />
 
       <SectionHeading
         eyebrow="Recognition"

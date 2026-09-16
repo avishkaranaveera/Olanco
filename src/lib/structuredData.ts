@@ -1,5 +1,5 @@
-import type { ProductCategory } from '@/data/products';
-import { siteInfo } from '@/data/site';
+import type { ProductCategory } from '../data/products.ts';
+import { siteInfo } from '../data/site.ts';
 
 /** schema.org LocalBusiness — shown on every page so search engines can build a knowledge panel. */
 export function localBusinessJsonLd() {

@@ -4,22 +4,12 @@ import { ButtonLink } from '@/components/ui/Button';
 import { Reveal } from '@/components/ui/Reveal';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { categories } from '@/data/products';
-import { siteInfo } from '@/data/site';
-import { breadcrumbJsonLd } from '@/lib/structuredData';
+import { productsSeo } from '@/data/routeMeta';
 
 export function ProductsPage() {
   return (
     <div className="mx-auto max-w-6xl space-y-10 px-6 py-16">
-      <Seo
-        title="Products"
-        description={`Solid timber doors, windows, handrailing, pantry cupboards and custom wooden furniture, built to measure by ${siteInfo.name} in ${siteInfo.city}.`}
-        keywords={categories.map((category) => category.keywords).join(', ')}
-        path="/products"
-        jsonLd={breadcrumbJsonLd([
-          { name: 'Home', path: '/' },
-          { name: 'Products', path: '/products' },
-        ])}
-      />
+      <Seo {...productsSeo()} />
 
       <SectionHeading
         eyebrow="Our range"

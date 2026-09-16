@@ -6,8 +6,8 @@ import { ButtonLink } from '@/components/ui/Button';
 import { Reveal } from '@/components/ui/Reveal';
 import { SmartImage } from '@/components/ui/SmartImage';
 import { categories, getCategory } from '@/data/products';
+import { categorySeo } from '@/data/routeMeta';
 import { siteInfo } from '@/data/site';
-import { breadcrumbJsonLd, categoryJsonLd } from '@/lib/structuredData';
 
 export function ProductCategoryPage() {
   const { slug } = useParams();
@@ -22,21 +22,7 @@ export function ProductCategoryPage() {
 
   return (
     <div>
-      <Seo
-        title={category.name}
-        description={`${category.description} Serving ${siteInfo.city}, ${siteInfo.country}.`}
-        keywords={category.keywords}
-        path={`/products/${category.slug}`}
-        image={category.image}
-        jsonLd={[
-          categoryJsonLd(category),
-          breadcrumbJsonLd([
-            { name: 'Home', path: '/' },
-            { name: 'Products', path: '/products' },
-            { name: category.name, path: `/products/${category.slug}` },
-          ]),
-        ]}
-      />
+      <Seo {...categorySeo(category)} />
 
       <section className="mx-auto max-w-6xl px-6 py-16">
         <div className="grid items-center gap-10 lg:grid-cols-2">

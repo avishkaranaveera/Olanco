@@ -6,9 +6,8 @@ import { Reveal } from '@/components/ui/Reveal';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { SmartImage } from '@/components/ui/SmartImage';
 import { categories } from '@/data/products';
-import { siteInfo } from '@/data/site';
+import { gallerySeo } from '@/data/routeMeta';
 import { cn } from '@/lib/cn';
-import { breadcrumbJsonLd } from '@/lib/structuredData';
 
 interface GalleryItem {
   id: string;
@@ -44,16 +43,7 @@ export function GalleryPage() {
 
   return (
     <div className="mx-auto max-w-6xl space-y-10 px-6 py-16">
-      <Seo
-        title="Gallery"
-        description={`Photos of finished doors, windows, handrailing, pantry cupboards and custom furniture built by ${siteInfo.name}.`}
-        keywords={`${siteInfo.name} gallery, joinery portfolio, wood furniture photos, finished projects`}
-        path="/gallery"
-        jsonLd={breadcrumbJsonLd([
-          { name: 'Home', path: '/' },
-          { name: 'Gallery', path: '/gallery' },
-        ])}
-      />
+      <Seo {...gallerySeo()} />
 
       <SectionHeading
         eyebrow="Our work"

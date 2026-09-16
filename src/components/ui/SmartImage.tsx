@@ -1,5 +1,6 @@
 import { useState, type ComponentType } from 'react';
 
+import { withBase } from '@/lib/basePath';
 import { cn } from '@/lib/cn';
 
 interface SmartImageProps {
@@ -31,7 +32,7 @@ export function SmartImage({ src, alt, fallback: Fallback, className, eager }: S
 
   return (
     <img
-      src={src}
+      src={withBase(src)}
       alt={alt}
       className={cn('object-cover', className)}
       loading={eager ? 'eager' : 'lazy'}

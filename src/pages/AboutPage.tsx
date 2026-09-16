@@ -4,22 +4,13 @@ import { ButtonLink } from '@/components/ui/Button';
 import { Reveal } from '@/components/ui/Reveal';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { SmartImage } from '@/components/ui/SmartImage';
+import { aboutSeo } from '@/data/routeMeta';
 import { siteInfo, stats, values } from '@/data/site';
-import { breadcrumbJsonLd } from '@/lib/structuredData';
 
 export function AboutPage() {
   return (
     <div>
-      <Seo
-        title="About Us"
-        description={`The story behind ${siteInfo.name}, a family-run joinery workshop in ${siteInfo.city} building solid timber doors, windows and furniture since ${siteInfo.foundedYear}.`}
-        keywords={`about ${siteInfo.name}, joinery workshop history, carpentry business ${siteInfo.city}`}
-        path="/about"
-        jsonLd={breadcrumbJsonLd([
-          { name: 'Home', path: '/' },
-          { name: 'About', path: '/about' },
-        ])}
-      />
+      <Seo {...aboutSeo()} />
 
       <section className="mx-auto max-w-6xl px-6 py-16">
         <div className="grid items-center gap-10 lg:grid-cols-2">

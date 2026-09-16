@@ -4,8 +4,8 @@ export const siteInfo = {
   tagline: 'Doors, windows & fine joinery, built by hand',
   description:
     'Olanco is a family-run joinery workshop crafting solid timber doors, windows, handrailing, pantry cupboards and custom wooden furniture to measure.',
-  /** Placeholder \u2014 replace with the real production domain before going live. */
-  url: 'https://www.olanco.example',
+  /** Live on GitHub Pages \u2014 update if Olanco later moves to its own domain. */
+  url: 'https://avishkaranaveera.github.io/Olanco',
   phone: '+94 11 234 5678',
   whatsapp: '+94 77 123 4567',
   email: 'hello@olanco.example',

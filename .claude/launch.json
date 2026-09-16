@@ -6,6 +6,12 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],
       "port": 4200
+    },
+    {
+      "name": "olanco-preview-pages",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["vite", "preview", "--port", "4300"],
+      "port": 4300
     }
   ]
 }

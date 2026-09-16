@@ -47,4 +47,6 @@ export const routes = [
   },
 ];
 
-export const router = createBrowserRouter(routes);
+// Matches Vite's `base` (see vite.config.ts) — "/" locally, "/Olanco/" on
+// GitHub Pages — so links and route matching resolve under the deployed subpath.
+export const router = createBrowserRouter(routes, { basename: import.meta.env.BASE_URL });

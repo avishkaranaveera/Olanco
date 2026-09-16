@@ -5,8 +5,8 @@ import { Button } from '@/components/ui/Button';
 import { Reveal } from '@/components/ui/Reveal';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { categories } from '@/data/products';
+import { contactSeo } from '@/data/routeMeta';
 import { siteInfo } from '@/data/site';
-import { breadcrumbJsonLd } from '@/lib/structuredData';
 
 const inputClasses =
   'w-full rounded-md border border-brand-300 bg-white px-3 py-2 text-sm text-brand-900 placeholder:text-brand-400 focus:border-brand-500 focus:outline-none dark:border-brand-600 dark:bg-brand-800 dark:text-cream-50';
@@ -37,16 +37,7 @@ export function ContactPage() {
 
   return (
     <div className="mx-auto max-w-6xl space-y-12 px-6 py-16">
-      <Seo
-        title="Contact & Free Quote"
-        description={`Get a free quote from ${siteInfo.name} for wooden doors, windows, handrailing, pantry cupboards or custom furniture. Call, WhatsApp or email us.`}
-        keywords={`contact ${siteInfo.name}, joinery quote, ${siteInfo.city} carpenter contact`}
-        path="/contact"
-        jsonLd={breadcrumbJsonLd([
-          { name: 'Home', path: '/' },
-          { name: 'Contact', path: '/contact' },
-        ])}
-      />
+      <Seo {...contactSeo()} />
 
       <SectionHeading
         eyebrow="Get in touch"

@@ -1,5 +1,6 @@
 import { useState, type ComponentType } from 'react';
 
+import { withBase } from '@/lib/basePath';
 import { cn } from '@/lib/cn';
 
 interface SmartVideoProps {
@@ -37,7 +38,7 @@ export function SmartVideo({
   return (
     <video
       className={cn('object-cover', className)}
-      poster={poster}
+      poster={withBase(poster)}
       autoPlay
       muted
       loop
@@ -46,8 +47,8 @@ export function SmartVideo({
       aria-label={title}
       onError={() => setFailed(true)}
     >
-      {sources.webm ? <source src={sources.webm} type="video/webm" /> : null}
-      <source src={sources.mp4} type="video/mp4" />
+      {sources.webm ? <source src={withBase(sources.webm)} type="video/webm" /> : null}
+      <source src={withBase(sources.mp4)} type="video/mp4" />
     </video>
   );
 }

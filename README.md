@@ -29,16 +29,17 @@ The dev server runs on `http://localhost:4200`.
 
 ## Scripts
 
-| Script                  | Description                                |
-| ----------------------- | ------------------------------------------ |
-| `npm run dev`           | Start the Vite dev server with HMR         |
-| `npm run build`         | Type-check (`tsc -b`) and build to `dist/` |
-| `npm run preview`       | Serve the production build on port 4300    |
-| `npm test`              | Run the test suite once                    |
-| `npm run test:watch`    | Run tests in watch mode                    |
-| `npm run test:coverage` | Run tests with a V8 coverage report        |
-| `npm run lint`          | Lint with ESLint                           |
-| `npm run format`        | Format with Prettier                       |
+| Script                  | Description                                                                         |
+| ----------------------- | ----------------------------------------------------------------------------------- |
+| `npm run dev`           | Start the Vite dev server with HMR                                                  |
+| `npm run build`         | Type-check (`tsc -b`) and build to `dist/` (base `/`, plus per-route SEO postbuild) |
+| `npm run build:pages`   | Same, with base `/Olanco/` — what the GitHub Pages deploy uses                      |
+| `npm run preview`       | Serve the production build on port 4300                                             |
+| `npm test`              | Run the test suite once                                                             |
+| `npm run test:watch`    | Run tests in watch mode                                                             |
+| `npm run test:coverage` | Run tests with a V8 coverage report                                                 |
+| `npm run lint`          | Lint with ESLint                                                                    |
+| `npm run format`        | Format with Prettier                                                                |
 
 ## Pages
 
@@ -72,12 +73,20 @@ every image/video slot, its exact file path, and a ready-to-use AI prompt.
   [`src/components/Seo.tsx`](src/components/Seo.tsx) (backed by `react-helmet-async`).
 - JSON-LD structured data: `LocalBusiness` (every page), `Product` + `BreadcrumbList` (category
   pages), `FAQPage` (home) — see [`src/lib/structuredData.ts`](src/lib/structuredData.ts).
-- `public/robots.txt` and `public/sitemap.xml` (update the domain in both, and in
-  `siteInfo.url` in [`src/data/site.ts`](src/data/site.ts), before going live).
-- Because this is a client-rendered SPA, these tags are set by JavaScript after the bundle loads.
-  Modern crawlers (Googlebot) render JS and pick this up fine; for a fully static fallback,
-  prerendering or a server-rendered framework (Next.js, React Router framework mode) would be
-  the next step.
+- **[`src/data/routeMeta.ts`](src/data/routeMeta.ts)** is the single source of truth for every
+  page's title/description/keywords/JSON-LD — each page spreads `{...xSeo()}` into its `<Seo>`
+  call, so there's exactly one place to edit copy for a route.
+- **Static per-route SEO tags**: this is a client-rendered SPA, so without extra work every route
+  would serve the _same_ generic `<title>`/description in its raw HTML — fine for crawlers that
+  render JS (Googlebot does), but wrong for anything that doesn't (social-media link previews,
+  Slack/Discord unfurls, some SEO auditing tools). **[`scripts/postbuild-seo.ts`](scripts/postbuild-seo.ts)**
+  runs automatically after every build (as npm's `postbuild` hook) and writes a standalone
+  `dist/<route>/index.html` per page — same JS bundle, but with that route's real title, meta
+  description/keywords, canonical link, Open Graph/Twitter tags and JSON-LD already baked into
+  the HTML, built from the exact same `routeMeta.ts` functions the live app uses. `dist/404.html`
+  gets the same treatment for GitHub Pages' unmatched-path fallback.
+- `public/robots.txt` and `public/sitemap.xml` point at the real deployed URL; update them (and
+  `siteInfo.url` in [`src/data/site.ts`](src/data/site.ts)) if the site ever moves domains.
 
 ## Performance & loading states
 
@@ -169,10 +178,33 @@ Imports use the `@/` alias for `src/` (configured in both `vite.config.ts` and
   entry in [`src/components/layout/Header.tsx`](src/components/layout/Header.tsx) if it belongs
   in the main menu.
 
+## Deployment
+
+Live at **https://avishkaranaveera.github.io/Olanco/**, hosted free on GitHub Pages.
+
+- **[`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml)** builds and
+  deploys automatically on every push to `main` (lint → test → `npm run build:pages` →
+  publish via `actions/deploy-pages`). Trigger a redeploy manually from the Actions tab
+  (`workflow_dispatch`) without needing a new commit.
+- `npm run build:pages` is `npm run build` with `VITE_BASE_PATH=/Olanco/` (via `cross-env`, so it
+  works the same on Windows/macOS/Linux) — GitHub Pages serves a project site under
+  `/<repo-name>/`, not the domain root, so every asset URL, the client router's `basename`
+  ([`src/routes/router.ts`](src/routes/router.ts)), and `<img>`/`<video>` sources
+  ([`src/lib/basePath.ts`](src/lib/basePath.ts)) need that prefix. Plain `npm run build` (base
+  `/`) is what local dev and `npm run preview` use.
+- To test the exact Pages build locally: `npm run build:pages`, then
+  `npx vite preview --port 4300` and open `http://localhost:4300/Olanco/` (the trailing path is
+  required — the preview server won't redirect from `/`).
+- To move off GitHub Pages later (custom domain, another static host, or a server-rendered
+  framework): drop `VITE_BASE_PATH` (or set it to `/`), update `siteInfo.url` in
+  [`src/data/site.ts`](src/data/site.ts), and regenerate `public/sitemap.xml` /
+  `public/robots.txt` with the new domain.
+
 ## Before going live
 
-- Replace the placeholder domain (`https://www.olanco.example`) in `src/data/site.ts`,
-  `public/robots.txt` and `public/sitemap.xml` with the real one.
+- The repo is now **public** (required for free GitHub Pages hosting on a personal account) —
+  make it private again if that's not desired, but note Pages itself will stop working on the
+  free plan if you do (see [Deployment](#deployment)).
 - Replace the placeholder phone/email/address in `src/data/site.ts` and the map coordinates in
   `src/pages/ContactPage.tsx` with Olanco's real details.
 - Swap in real photos/video per [AI_IMAGE_PROMPTS.md](AI_IMAGE_PROMPTS.md) and remove the

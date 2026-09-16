@@ -2,16 +2,13 @@ import { Seo } from '@/components/Seo';
 import { Reveal } from '@/components/ui/Reveal';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { mediaCredits } from '@/data/credits';
+import { creditsSeo } from '@/data/routeMeta';
 import { siteInfo } from '@/data/site';
 
 export function CreditsPage() {
   return (
     <div className="mx-auto max-w-4xl space-y-10 px-6 py-16">
-      <Seo
-        title="Photo & Video Credits"
-        description="License and attribution details for the placeholder photos and video used on this site."
-        path="/credits"
-      />
+      <Seo {...creditsSeo()} />
 
       <SectionHeading
         eyebrow="Placeholder media"
