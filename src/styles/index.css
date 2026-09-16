@@ -1,0 +1,62 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/fraunces/index.css';
+@import '@fontsource-variable/inter/index.css';
+
+/* Manual dark mode: `dark:` responds to a `.dark` class on <html> (set by useTheme),
+   not to prefers-color-scheme directly — the initial value still comes from the
+   system preference via the inline script in index.html. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-display: 'Fraunces Variable', ui-serif, Georgia, serif;
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+
+  /* Warm timber palette */
+  --color-brand-50: #fbf4e9;
+  --color-brand-100: #f3e2c4;
+  --color-brand-200: #e6c793;
+  --color-brand-300: #d7a962;
+  --color-brand-400: #c68d44;
+  --color-brand-500: #a86f30;
+  --color-brand-600: #8a5726;
+  --color-brand-700: #6b4128;
+  --color-brand-800: #4a2f1f;
+  --color-brand-900: #34211a;
+
+  --color-cream-50: #fefcf8;
+  --color-cream-100: #faf3e6;
+  --color-cream-200: #f3e8d8;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-cream-50 font-sans text-brand-900 antialiased dark:bg-brand-900 dark:text-cream-100;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display;
+  }
+
+  :focus-visible {
+    @apply outline-brand-400 outline-2 outline-offset-2;
+  }
+}
+
+@keyframes progress-bar {
+  0% {
+    transform: translateX(-100%) scaleX(0.4);
+  }
+  50% {
+    transform: translateX(0%) scaleX(0.6);
+  }
+  100% {
+    transform: translateX(100%) scaleX(0.4);
+  }
+}
